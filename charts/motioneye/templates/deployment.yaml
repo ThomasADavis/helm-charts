@@ -40,6 +40,9 @@ spec:
               path: /
               port: http
           volumeMounts:
+            - mountPath: /etc/localtime
+              name: localtime
+              readOnly:: true
             - mountPath: /etc/motioneye
               name: config
             - mountPath: /var/lib/motioneye
@@ -47,6 +50,9 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
+        - name: localtime
+          hostPath:
+            path: /etc/localtime
         - name: config
         {{- if .Values.persistence.config.enabled }}
           persistentVolumeClaim:
